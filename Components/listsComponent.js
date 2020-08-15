@@ -76,10 +76,11 @@ Vue.component('lists-component', {
         },
         deleteDoneTasks: function (location) {
             this.doneTasks.splice(location, 1);
-        },        editToDoTasks: function (location, value) {
+        }, 
+
+        editToDoTasks: function (location, value) {
             this.toDoTasks[location] = value;
         },
-
         editInProgressTask: function (location, value) {
             this.inProgressTasks[location] = value;
         },

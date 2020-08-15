@@ -20,7 +20,8 @@ Vue.component('list-component', {
                     @move-inprogress-todo="moveInProgressToDo"
                     @move-inprogress-done="moveInProgressDone"
                     @move-done-inprogress="moveDoneInProgress"
-                    @add-job="addJob">
+                    @add-job="addJob"
+                    @del-job="deleteJob">
                 </item-component>
                 <br></br>
             </div>
@@ -64,6 +65,9 @@ Vue.component('list-component', {
                 name: job,
                 done: false
             })
+        },
+        deleteJob: function(key){
+            this.jobs.splice(key, 1);
         }
     },
     computed: {

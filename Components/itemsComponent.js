@@ -19,11 +19,18 @@ Vue.component('item-component', {
                         <button type="button" class="btn btn-primary" v-on:click="editTask(location)">Save</button>
                     </div>
                     <div>
-                        <h3 class="p-3">Jobs</h3>
+                        <h2 class="p-3">Jobs</h2>
                         <div class="p-3 input-group" v-for="(job, key) in jobs">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" v-model="job.done" id="defaultCheck1">
-                                <h5 class="form-check-label">{{job.name}}</h5>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <input class="form-check-input mt-2" type="checkbox" v-model="job.done" id="defaultCheck1">
+                                        <h4 class="form-check-label">{{job.name}}</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-danger" v-on:click="delJob(key)">Del</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="p-3 input-group">
@@ -65,8 +72,11 @@ Vue.component('item-component', {
             this.$emit(event, location);
         },
         addJob: function(array){
-            this.$emit("add-job", array, this.newJob)
-            return false;
+            this.$emit("add-job", array, this.newJob);
+            this.newJob = "";
+        },
+        delJob: function(key){
+            this.$emit("del-job", key);
         }
     },
     computed: {
