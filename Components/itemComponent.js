@@ -1,26 +1,23 @@
 Vue.component('item-component', {
     props: {
-        task: String,
-        location: Number,
-        colour: String,
-        mouseEvents: Array,
-        jobs: Array
+        task: Object,
+        colour: String
     },
     template:
     `
         <div class="d-inline-flex w-100">
             <div class="dropdown w-100">
                 <button :class="button3Style" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                    {{ componentTask }}
+                    {{ task.name }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <div class="p-3 input-group">
-                        <input type="text" class="form-control mr-3" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="componentTask">
-                        <button type="button" class="btn btn-primary" v-on:click="editTask(location)">Save</button>
+                        <input type="text" class="form-control mr-3" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="componentTask.name">
+                        <button type="button" class="btn btn-primary" v-on:click="editTask">Save</button>
                     </div>
                     <div>
                         <h2 class="p-3">Jobs</h2>
-                        <div class="p-3 input-group" v-for="(job, key) in jobs">
+                        <div class="p-3 input-group" v-for="(job, key) in componentTask.jobs">
                             <div class="form-check">
                                 <div class="row">
                                     <div class="col-6">
@@ -28,14 +25,14 @@ Vue.component('item-component', {
                                         <h4 class="form-check-label">{{job.name}}</h4>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-danger" v-on:click="delJob(key)">Del</button>
+                                        <button class="btn btn-danger" v-on:click="">Del</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="p-3 input-group">
                             <input type="text" class="form-control mr-3" placeholder="New job" aria-label="Username" aria-describedby="basic-addon1" v-model="newJob">
-                            <button type="button" class="btn btn-success" v-on:click="addJob(jobs)">+</button>
+                            <button type="button" class="btn btn-success" v-on:click="">+</button>
                         </div>
                     </div>
                 </div>
@@ -47,10 +44,8 @@ Vue.component('item-component', {
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <div class="dropdown-menu">
-                    <div v-for="(mouseEvent, key) in mouseEvents">
-                        <a class="dropdown-item" href="#" v-on:click="moveTask(mouseEvent.event, location)">{{mouseEvent.option}}</a>
-                    </div>
-                    <a class="dropdown-item" href="#" v-on:click="deleteTask(location)">Delete</a>
+                    <a class="dropdown-item" href="#" v-on:click="moveTask">Move</a>
+                    <a class="dropdown-item" href="#" v-on:click="deleteTask">Delete</a>
                 </div>
             </div>
         </div>
@@ -62,14 +57,11 @@ Vue.component('item-component', {
         }
     },
     methods: {
-        deleteTask: function (location) {
-            this.$emit("delete-task", location);
+        deleteTask: function () {
+            this.$emit("delete-task", this.task.id);
         },
-        editTask: function(location){
-            this.$emit("edit-task", location, this.componentTask);
-        },
-        moveTask: function (event, location) {
-            this.$emit(event, location);
+        editTask: function(){
+            this.$emit("edit-task",  this.componentTask.id, this.componentTask.name);
         },
         addJob: function(array){
             this.$emit("add-job", array, this.newJob);
@@ -77,6 +69,17 @@ Vue.component('item-component', {
         },
         delJob: function(key){
             this.$emit("del-job", key);
+        },
+        moveTask: function () {
+            this.$emit("move-task", this.componentTask.id, this.getStatus(this.componentTask.status));
+        },
+        getStatus: function(status){
+            if(status == 2){
+                return 1;
+            }
+            else{
+                return status + 1;
+            }
         }
     },
     computed: {
