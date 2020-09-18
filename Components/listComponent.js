@@ -14,7 +14,8 @@ Vue.component('list-component', {
                     @edit-task="editTask"
                     @move-task="moveTask"
                     @add-job="addJob"
-                    @del-job="deleteJob">
+                    @del-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </item-component>
                 <br></br>
             </div>
@@ -40,6 +41,9 @@ Vue.component('list-component', {
         },
         moveTask: function(id, status){
             this.$emit("move-task", id, status);
+        },
+        editJobStatus: function(taskId, jobId, jobStatus){
+            this.$emit("edit-job-status", taskId, jobId, jobStatus);
         }
     },
     computed: {

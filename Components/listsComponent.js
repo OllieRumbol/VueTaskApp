@@ -14,7 +14,8 @@ Vue.component('lists-component', {
                     @edit-task="renameTask"
                     @move-task="moveTask"
                     @add-job="addJob"
-                    @delete-job="deleteJob">
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
             <div class="col-4">
@@ -127,6 +128,24 @@ Vue.component('lists-component', {
                 body: JSON.stringify({
                     TaskId: id,
                     JobId: job
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
+        },
+        editJobStatus: function(taskId, jobId, jobStatus){
+            fetch('https://localhost:44336/api/tasks/job/done',{
+                method: 'PUT',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: taskId,
+                    JobId: jobId,
+                    Done: jobStatus
                 })
             })
             .then(response => response.json())

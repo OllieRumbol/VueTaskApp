@@ -21,7 +21,7 @@ Vue.component('item-component', {
                             <div class="form-check">
                                 <div class="row">
                                     <div class="col-6">
-                                        <input class="form-check-input mt-2" type="checkbox" v-model="job.done" id="defaultCheck1">
+                                        <input class="form-check-input mt-2" type="checkbox" v-model="job.done" id="defaultCheck1" v-on:click.stop.prevent="editJobStatus(job.id, job.status)">
                                         <h4 class="form-check-label">{{job.name}}</h4>
                                     </div>
                                     <div class="col-6">
@@ -55,6 +55,9 @@ Vue.component('item-component', {
         }
     },
     methods: {
+        moveTask: function () {
+            this.$emit("move-task", this.task.id, this.getStatus(this.task.status));
+        },
         deleteTask: function () {
             this.$emit("delete-task", this.task.id);
         },
@@ -68,8 +71,8 @@ Vue.component('item-component', {
         delJob: function(jobId){
             this.$emit("del-job", this.task.id, jobId);
         },
-        moveTask: function () {
-            this.$emit("move-task", this.task.id, this.getStatus(this.task.status));
+        editJobStatus: function(jobId, jobStatus){
+            this.$emit("edit-job-status", this.task.id, jobId, !jobStatus)
         },
         getStatus: function(status){
             if(status == 2){
