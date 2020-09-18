@@ -25,7 +25,10 @@ Vue.component('lists-component', {
                     colour="warning" 
                     @delete-task="deleteTask"
                     @edit-task="renameTask"
-                    @move-task="moveTask">
+                    @move-task="moveTask"
+                    @add-job="addJob"
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
             <div class="col-4">
@@ -35,7 +38,10 @@ Vue.component('lists-component', {
                     colour="success" 
                     @delete-task="deleteTask"
                     @edit-task="renameTask"
-                    @move-task="moveTask">
+                    @move-task="moveTask"
+                    @add-job="addJob"
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
         </div>
