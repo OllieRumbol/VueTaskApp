@@ -17,7 +17,7 @@ Vue.component('item-component', {
                     </div>
                     <div>
                         <h2 class="p-3">Jobs</h2>
-                        <div class="p-3 input-group" v-for="(job, key) in componentTask.jobs">
+                        <div class="p-3 input-group" v-for="(job, key) in task.jobs">
                             <div class="form-check">
                                 <div class="row">
                                     <div class="col-6">
@@ -32,7 +32,7 @@ Vue.component('item-component', {
                         </div>
                         <div class="p-3 input-group">
                             <input type="text" class="form-control mr-3" placeholder="New job" aria-label="Username" aria-describedby="basic-addon1" v-model="newJob">
-                            <button type="button" class="btn btn-success" v-on:click="">+</button>
+                            <button type="button" class="btn btn-success" v-on:click="addJob(task.id)">+</button>
                         </div>
                     </div>
                 </div>
@@ -63,8 +63,8 @@ Vue.component('item-component', {
         editTask: function(){
             this.$emit("edit-task",  this.componentTask.id, this.componentTask.name);
         },
-        addJob: function(array){
-            this.$emit("add-job", array, this.newJob);
+        addJob: function(id){
+            this.$emit("add-job", id, this.newJob);
             this.newJob = "";
         },
         delJob: function(key){

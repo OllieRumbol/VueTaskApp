@@ -10,7 +10,6 @@ Vue.component('list-component', {
                 <item-component
                     :task = "task"
                     :colour = "colour"
-                    :jobs="jobs"
                     @delete-task="deleteTask" 
                     @edit-task="editTask"
                     @move-task="moveTask"
@@ -23,16 +22,7 @@ Vue.component('list-component', {
     `,
     data() {
         return {
-            jobs:[
-                {
-                    name: "code",
-                    done: true
-                },
-                {
-                    name: "code2",
-                    done: false
-                }
-            ]
+
         }
     },
     methods: {
@@ -42,14 +32,11 @@ Vue.component('list-component', {
         editTask: function(id, value){
             this.$emit("edit-task", id, value);
         },
-        addJob: function(array, job){
-            this.jobs.push({
-                name: job,
-                done: false
-            })
+        addJob: function(id, job){
+            this.$emit("add-job", id, job);
         },
         deleteJob: function(key){
-            this.jobs.splice(key, 1);
+            
         },
         moveTask: function(id, status){
             this.$emit("move-task", id, status);
