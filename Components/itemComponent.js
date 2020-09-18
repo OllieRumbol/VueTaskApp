@@ -12,8 +12,8 @@ Vue.component('item-component', {
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <div class="p-3 input-group">
-                        <input type="text" class="form-control mr-3" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="componentTask.name">
-                        <button type="button" class="btn btn-primary" v-on:click="editTask">Save</button>
+                        <input type="text" class="form-control mr-3" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="task.name">
+                        <button type="button" class="btn btn-primary" v-on:click.stop.prevent="editTask">Save</button>
                     </div>
                     <div>
                         <h2 class="p-3">Jobs</h2>
@@ -25,21 +25,20 @@ Vue.component('item-component', {
                                         <h4 class="form-check-label">{{job.name}}</h4>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-danger" v-on:click="">Del</button>
+                                        <button class="btn btn-danger" v-on:click.stop.prevent="delJob(job.id)">Del</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="p-3 input-group">
                             <input type="text" class="form-control mr-3" placeholder="New job" aria-label="Username" aria-describedby="basic-addon1" v-model="newJob">
-                            <button type="button" class="btn btn-success" v-on:click="addJob(task.id)">+</button>
+                            <button type="button" class="btn btn-success" v-on:click.stop.prevent="addJob(task.id)">+</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="dropdown">
-                <!--<input :class="button1Style" v-model="componentTask">-->
                 <button type="button" :class="button2Style" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -52,7 +51,6 @@ Vue.component('item-component', {
     `,
     data() {
         return {
-            componentTask: this.task,
             newJob: ""
         }
     },
@@ -61,17 +59,17 @@ Vue.component('item-component', {
             this.$emit("delete-task", this.task.id);
         },
         editTask: function(){
-            this.$emit("edit-task",  this.componentTask.id, this.componentTask.name);
+            this.$emit("edit-task",  this.task.id, this.task.name);
         },
         addJob: function(id){
             this.$emit("add-job", id, this.newJob);
             this.newJob = "";
         },
-        delJob: function(key){
-            this.$emit("del-job", key);
+        delJob: function(jobId){
+            this.$emit("del-job", this.task.id, jobId);
         },
         moveTask: function () {
-            this.$emit("move-task", this.componentTask.id, this.getStatus(this.componentTask.status));
+            this.$emit("move-task", this.task.id, this.getStatus(this.task.status));
         },
         getStatus: function(status){
             if(status == 2){

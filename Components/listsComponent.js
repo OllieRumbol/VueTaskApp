@@ -13,7 +13,8 @@ Vue.component('lists-component', {
                     @delete-task="deleteTask" 
                     @edit-task="renameTask"
                     @move-task="moveTask"
-                    @add-job="addJob">
+                    @add-job="addJob"
+                    @delete-job="deleteJob">
                 </list-component>
             </div>
             <div class="col-4">
@@ -109,6 +110,23 @@ Vue.component('lists-component', {
                 body: JSON.stringify({
                     TaskId: id,
                     JobName: job
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
+        },
+        deleteJob: function(id, job){
+            fetch('https://localhost:44336/api/tasks/job',{
+                method: 'DELETE',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: id,
+                    JobId: job
                 })
             })
             .then(response => response.json())

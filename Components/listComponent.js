@@ -35,8 +35,8 @@ Vue.component('list-component', {
         addJob: function(id, job){
             this.$emit("add-job", id, job);
         },
-        deleteJob: function(key){
-            
+        deleteJob: function(id, jobId){
+            this.$emit("delete-job", id, jobId);
         },
         moveTask: function(id, status){
             this.$emit("move-task", id, status);
