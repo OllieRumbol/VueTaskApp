@@ -4,12 +4,10 @@ var eventBus = new Vue();
 var app = new Vue({
     el: '#app',
     data: {
-        tasks: []
+        
     },
     methods: {
-        addTask: function(task){
-            this.tasks.push(task);
-        }
+
     },
 });
 

@@ -1,8 +1,7 @@
 Vue.component('list-component', {
     props: {
         tasks: Array,
-        colour: String,
-        mouseEvents: Array
+        colour: String
     },
     template:
         `
@@ -10,18 +9,13 @@ Vue.component('list-component', {
             <div v-for="(task, key) in tasks">
                 <item-component
                     :task = "task"
-                    :location = "key"
                     :colour = "colour"
-                    :mouseEvents="mouseEvents"
-                    :jobs="jobs"
                     @delete-task="deleteTask" 
                     @edit-task="editTask"
-                    @move-todo-inprogress="moveTodoInProgress"
-                    @move-inprogress-todo="moveInProgressToDo"
-                    @move-inprogress-done="moveInProgressDone"
-                    @move-done-inprogress="moveDoneInProgress"
+                    @move-task="moveTask"
                     @add-job="addJob"
-                    @del-job="deleteJob">
+                    @del-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </item-component>
                 <br></br>
             </div>
@@ -29,45 +23,27 @@ Vue.component('list-component', {
     `,
     data() {
         return {
-            jobs:[
-                {
-                    name: "code",
-                    done: true
-                },
-                {
-                    name: "code2",
-                    done: false
-                }
-            ]
+
         }
     },
     methods: {
-        deleteTask: function (location) {
-            this.$emit("delete-task", location);
+        deleteTask: function (id) {
+            this.$emit("delete-task", id);
         },
-        editTask: function(location, value){
-            this.$emit("edit-task", location, value);
+        editTask: function(id, value){
+            this.$emit("edit-task", id, value);
         },
-        moveTodoInProgress: function(location){
-            this.$emit("move-todo-inprogress", location)
+        addJob: function(id, job){
+            this.$emit("add-job", id, job);
         },
-        moveInProgressToDo: function (location){
-            this.$emit("move-inprogress-todo", location)
+        deleteJob: function(id, jobId){
+            this.$emit("delete-job", id, jobId);
         },
-        moveInProgressDone: function(location){
-            this.$emit("move-inprogress-done", location)
+        moveTask: function(id, status){
+            this.$emit("move-task", id, status);
         },
-        moveDoneInProgress: function(location){
-            this.$emit("move-done-inprogress", location)
-        },
-        addJob: function(array, job){
-            this.jobs.push({
-                name: job,
-                done: false
-            })
-        },
-        deleteJob: function(key){
-            this.jobs.splice(key, 1);
+        editJobStatus: function(taskId, jobId, jobStatus){
+            this.$emit("edit-job-status", taskId, jobId, jobStatus);
         }
     },
     computed: {

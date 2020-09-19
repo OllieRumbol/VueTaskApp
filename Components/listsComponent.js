@@ -10,10 +10,12 @@ Vue.component('lists-component', {
                 <list-component 
                     :tasks="toDoTasks" 
                     colour="primary"
-                    :mouseEvents="toDoMoveEvents"
-                    @delete-task="deleteToDoTask" 
-                    @edit-task="editToDoTasks"
-                    @move-todo-inprogress="moveToDoToInProgress">
+                    @delete-task="deleteTask" 
+                    @edit-task="renameTask"
+                    @move-task="moveTask"
+                    @add-job="addJob"
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
             <div class="col-4">
@@ -21,11 +23,12 @@ Vue.component('lists-component', {
                 <list-component 
                     :tasks="inProgressTasks" 
                     colour="warning" 
-                    :mouseEvents="inProgressMoveEvents"
-                    @delete-task="deleteInProgressTask"  
-                    @edit-task="editInProgressTask"
-                    @move-inprogress-todo="moveInProgressToToDo"
-                    @move-inprogress-done="moveInProgressToDone">
+                    @delete-task="deleteTask"
+                    @edit-task="renameTask"
+                    @move-task="moveTask"
+                    @add-job="addJob"
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
             <div class="col-4">
@@ -33,10 +36,12 @@ Vue.component('lists-component', {
                 <list-component 
                     :tasks="doneTasks" 
                     colour="success" 
-                    :mouseEvents="doneMoveEvents"
-                    @delete-task="deleteDoneTasks"
-                    @edit-task="editDoneTasks"
-                    @move-done-inprogress="">
+                    @delete-task="deleteTask"
+                    @edit-task="renameTask"
+                    @move-task="moveTask"
+                    @add-job="addJob"
+                    @delete-job="deleteJob"
+                    @edit-job-status="editJobStatus">
                 </list-component>
             </div>
         </div>
@@ -44,73 +49,136 @@ Vue.component('lists-component', {
     data() {
         return {
             toDoTasks: [],
-            inProgressTasks: ["Hello"],
+            inProgressTasks: [],
             doneTasks: [],
-            toDoMoveEvents: [
-                {
-                    option: "Move to in progress",
-                    event: "move-todo-inprogress"
-                }],
-            inProgressMoveEvents: [
-                { 
-                    option: "Move to to-do",
-                    event: "move-inprogress-todo"
-                }, 
-                { 
-                    option: "Move to done",
-                    event: "move-inprogress-done"
-                }],
-            doneMoveEvents: [
-                { 
-                    option: "Move to in progress",
-                    event: "move-done-inprogress"
-                }]
         }
     },
     methods: {
-        deleteToDoTask: function (location) {
-            this.toDoTasks.splice(location, 1);
-        },
-        deleteInProgressTask: function (location) {
-            this.inProgressTasks.splice(location, 1);
-        },
-        deleteDoneTasks: function (location) {
-            this.doneTasks.splice(location, 1);
-        }, 
-
-        editToDoTasks: function (location, value) {
-            this.toDoTasks[location] = value;
-        },
-        editInProgressTask: function (location, value) {
-            this.inProgressTasks[location] = value;
-        },
-        editDoneTasks: function (location, value) {
-            this.doneTasks[location] = value;
+        //New
+        filterTasks: function(data){
+            this.toDoTasks = data.filter(task => task.status == 0);
+            this.inProgressTasks = data.filter(task => task.status == 1);
+            this.doneTasks = data.filter(task => task.status == 2);
         },
 
-        moveToDoToInProgress:function(location){
-            let moved = this.toDoTasks.splice(location, 1);
-            this.inProgressTasks.push(moved[0]);
+        moveTask: function(id, status){
+            fetch('https://localhost:44336/api/tasks/status',{
+                method: 'PUT',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Id: id,
+                    Status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
         },
-        moveInProgressToToDo: function(location){
-            let moved = this.inProgressTasks.splice(location, 1);
-            this.toDoTasks.push(moved[0]);
+        renameTask: function(id, name){
+            fetch('https://localhost:44336/api/tasks',{
+                method: 'PUT',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    Id: id,
+                    Name: name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
         },
-        moveInProgressToDone: function(location){
-            let moved1 = this.inProgressTasks.splice(location, 1);
-            this.doneTasks.push(moved1[0]);
+        deleteTask: function(id){
+            fetch('https://localhost:44336/api/tasks/' + id,{
+                method: 'DELETE',
+                headers: {
+                    'Accept':'*',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
         },
-        moveDoneToInProgress: function(location){
-            let moved = this.doneTasks.splice(location, 1);
-            this.inProgressTasks.push(moved[0]);
+        addJob: function(id, job){
+            fetch('https://localhost:44336/api/tasks/job',{
+                method: 'POST',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: id,
+                    JobName: job
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
+        },
+        deleteJob: function(id, job){
+            fetch('https://localhost:44336/api/tasks/job',{
+                method: 'DELETE',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: id,
+                    JobId: job
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
+        },
+        editJobStatus: function(taskId, jobId, jobStatus){
+            fetch('https://localhost:44336/api/tasks/job/done',{
+                method: 'PUT',
+                headers: {
+                    'Accept':'*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TaskId: taskId,
+                    JobId: jobId,
+                    Done: jobStatus
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.filterTasks(data);
+            });
         }
+
     },
     computed: {
 
     },
     mounted() {
-        eventBus.$on('add-task', task => {
-            this.toDoTasks.push(task)
+        eventBus.$on('add-task', data => {
+            this.toDoTasks = data.filter(task => task.status == 0);
         })
+    },
+    created(){
+        fetch('https://localhost:44336/api/tasks',{
+            method: 'GET',
+            headers: {
+                'Accept':'*'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            this.filterTasks(data);
+        });
     }
 });
