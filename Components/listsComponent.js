@@ -6,7 +6,7 @@ Vue.component('lists-component', {
         `
         <div class="row">
             <div class="col-4">
-                <h1 class="d-flex justify-content-center">To-Do</h1>
+                <h1 class="d-flex justify-content-center">To-Do<span class="badge badge-primary ml-3">{{ toDoTasks.length }}: Tasks</span></h1>
                 <list-component 
                     :tasks="toDoTasks" 
                     colour="primary"
@@ -19,7 +19,7 @@ Vue.component('lists-component', {
                 </list-component>
             </div>
             <div class="col-4">
-                <h1 class="d-flex justify-content-center">In Progress</h1>
+                <h1 class="d-flex justify-content-center">In Progress<span class="badge badge-warning ml-3">{{ inProgressTasks.length }}: Tasks</span></h1>
                 <list-component 
                     :tasks="inProgressTasks" 
                     colour="warning" 
@@ -32,7 +32,7 @@ Vue.component('lists-component', {
                 </list-component>
             </div>
             <div class="col-4">
-                <h1 class="d-flex justify-content-center">Done</h1>
+                <h1 class="d-flex justify-content-center">Done<span class="badge badge-success ml-3">{{ doneTasks.length }}: Tasks</span></h1>
                 <list-component 
                     :tasks="doneTasks" 
                     colour="success" 
