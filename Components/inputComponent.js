@@ -5,19 +5,29 @@ Vue.component('input-component', {
     template:
         `
         <div>
+            <div v-show="showErrorMessage" class="alert alert-danger" role="alert">
+                {{ errorMessage }}
+            </div>
             <input v-model="task" class="form-control" type="text">
             <br></br>
-            <button class="btn btn-primary" v-on:click="submitTask">Add</button>
-            <button class="btn btn-danger" v-on:click="clearInput">Clear</button>
+            <button class="btn btn-primary btn-lg" v-on:click="submitTask">Add</button>
+            <button class="btn btn-danger btn-lg" v-on:click="clearInput">Clear</button>
         </div>
     `,
     data() {
         return {
-            task: ""
+            task: "",
+            showErrorMessage: false,
+            errorMessage: "Input box cannot be empty, please add task",
         }
     },
     methods: {
         submitTask: function () {
+            this.showErrorMessage = false;
+            if(this.task == ""){
+                this.showErrorMessage = true;
+                return;
+            }
             fetch('https://localhost:44336/api/tasks', {
                 method: "POST",
                 headers: {
@@ -37,6 +47,7 @@ Vue.component('input-component', {
         },
         clearInput: function () {
             this.task = "";
+            this.showErrorMessage = false;
         }
     },
     computed: {
