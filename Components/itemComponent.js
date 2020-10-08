@@ -7,10 +7,13 @@ Vue.component('item-component', {
     `
         <div class="d-inline-flex w-100">
             <div class="dropdown w-100">
+            <!-- Task Name -->
                 <button :class="button3Style" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                     {{ task.name }}
                 </button>
+                <!--JOBS MENU-->
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <!--UPDATE TASK-->
                     <div class="p-3 input-group">
                         <input type="text" class="form-control mr-3" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" v-model="task.name">
                         <button type="button" class="btn btn-primary" v-on:click.stop.prevent="editTask">Save</button>
@@ -20,21 +23,32 @@ Vue.component('item-component', {
                             {{ taskErrorMessage }}
                         </div>
                     </div>
+                    <!--JOBS SECTION-->
                     <div>
                         <h2 class="p-3">Jobs</h2>
-                        <div class="p-3 input-group" v-for="(job, key) in task.jobs">
-                            <div class="form-check">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <input class="form-check-input mt-2" type="checkbox" v-model="job.done" id="defaultCheck1" v-on:click.stop.prevent="editJobStatus(job.id, job.status)">
-                                        <h4 class="form-check-label">{{job.name}}</h4>
-                                    </div>
-                                    <div class="col-6">
+                        <!-- NEW -->
+                        <table class="p-3 input-group table d-flex justify-content-center">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">Done</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Delete</th>
+                                </tr>
+                                <tr v-for="(job, key) in task.jobs">
+                                    <td class="text-center">
+                                        <input class="mt-2" type="checkbox" v-model="job.done" id="defaultCheck1" v-on:click.stop.prevent="editJobStatus(job.id, job.done)">
+                                    </td>
+                                    <td class="text-center">
+                                        <h4>{{job.name}}</h4>
+                                    </td>
+                                    <td class="text-center">
                                         <button class="btn btn-danger" v-on:click.stop.prevent="delJob(job.id)">Del</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    
+                        <!--ADD JOB-->
                         <div class="p-3 input-group">
                             <input type="text" class="form-control mr-3" placeholder="New job" aria-label="Username" aria-describedby="basic-addon1" v-model="newJob">
                             <button type="button" class="btn btn-success" v-on:click.stop.prevent="addJob(task.id)">+</button>
@@ -48,6 +62,7 @@ Vue.component('item-component', {
                 </div>
             </div>
 
+            <!--TASK MENU-->
             <div class="dropleft">
                 <button type="button" :class="button2Style" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
@@ -102,7 +117,7 @@ Vue.component('item-component', {
         },
         getStatus: function(status){
             if(status == 2){
-                return 1;
+                return 0;
             }
             else{
                 return status + 1;
