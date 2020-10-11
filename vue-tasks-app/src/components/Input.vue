@@ -5,13 +5,15 @@
     </div>
     <input v-model="task" class="form-control" type="text" />
     <br />
-    <button class="btn btn-primary btn-lg m-3" v-on:click="submitTask">Add</button>
+    <button class="btn btn-primary btn-lg m-3" v-on:click="submitTask">
+      Add
+    </button>
     <button class="btn btn-danger btn-lg" v-on:click="clearInput">Clear</button>
   </div>
 </template>
 
 <script>
-import { EventBus } from '../helpers/event-bus';
+import { EventBus } from "../helpers/event-bus";
 
 export default {
   name: "Input",
@@ -44,6 +46,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           EventBus.$emit("add-task", data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
 
       this.task = "";
