@@ -98,6 +98,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
     renameTask: function(id, name) {
@@ -115,6 +119,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
     deleteTask: function(id) {
@@ -127,6 +135,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
     addJob: function(id, job) {
@@ -144,6 +156,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
     deleteJob: function(id, job) {
@@ -161,6 +177,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
     editJobStatus: function(taskId, jobId, jobStatus) {
@@ -179,6 +199,10 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.filterTasks(data);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$emit("api-error");
         });
     },
   },
@@ -193,6 +217,10 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.filterTasks(data);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.$emit("api-error");
       });
   },
 };
