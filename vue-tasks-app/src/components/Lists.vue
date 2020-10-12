@@ -67,13 +67,11 @@ export default {
     EventBus.$on("add-task", (data) => {
       this.toDoTasks = data.filter((task) => task.status == 0);
     });
+
+    this.$store.dispatch("setTask");
   },
   data() {
-    return {
-      toDoTasks: [],
-      inProgressTasks: [],
-      doneTasks: [],
-    };
+    return {};
   },
   methods: {
     //New
@@ -206,22 +204,17 @@ export default {
         });
     },
   },
-  computed: {},
-  created() {
-    fetch("https://localhost:44336/api/tasks", {
-      method: "GET",
-      headers: {
-        Accept: "*",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.filterTasks(data);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.$emit("api-error");
-      });
+  computed: {
+    toDoTasks() {
+      return this.$store.getters.getToDoTasks;
+    },
+    inProgressTasks() {
+      return this.$store.getters.getInProgressTasks;
+    },
+    doneTasks() {
+      return this.$store.getters.getDoneTasks;
+    },
   },
+  created() {},
 };
 </script>
