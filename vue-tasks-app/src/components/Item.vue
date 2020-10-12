@@ -138,10 +138,14 @@ export default {
   },
   methods: {
     moveTask: function() {
-      this.$emit("move-task", this.task.id, this.getStatus(this.task.status));
+      let data = JSON.stringify({
+        Id: this.task.id,
+        Status: this.getStatus(this.task.status),
+      });
+      this.$store.dispatch("moveTask", data);
     },
     deleteTask: function() {
-      this.$emit("delete-task", this.task.id);
+      this.$store.dispatch("deleteTask", this.task.id);
     },
     editTask: function() {
       this.showTaskErrorMessage = false;
@@ -150,7 +154,11 @@ export default {
         return;
       }
 
-      this.$emit("edit-task", this.task.id, this.task.name);
+      let data = JSON.stringify({
+        Id: this.task.id,
+        Name: this.task.name,
+      });
+      this.$store.dispatch("renameTask", data);
     },
     addJob: function(id) {
       this.showJobErrorMessage = false;

@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import { EventBus } from "../helpers/event-bus";
-
 export default {
   name: "Input",
   props: {},
@@ -33,24 +31,13 @@ export default {
         this.showErrorMessage = true;
         return;
       }
-      fetch("https://localhost:44336/api/tasks", {
-        method: "POST",
-        headers: {
-          Accept: "*",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          task: this.task,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          EventBus.$emit("add-task", data);
-        })
-        .catch((error) => {
-          console.log(error);
-          this.$emit("api-error");
-        });
+      
+      try {
+        this.$store.dispatch("addTask", this.task);
+      } catch (error) {
+        console.log(error);
+        this.$emit("api-error");
+      }
 
       this.task = "";
     },
