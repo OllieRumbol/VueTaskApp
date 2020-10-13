@@ -167,14 +167,31 @@ export default {
         return;
       }
 
-      this.$emit("add-job", id, this.newJob);
+      let data = JSON.stringify({
+        TaskId: id,
+        JobName: this.newJob,
+      });
+
+      this.$store.dispatch("addJob", data);
+
       this.newJob = "";
     },
     delJob: function(jobId) {
-      this.$emit("del-job", this.task.id, jobId);
+      let data = JSON.stringify({
+        TaskId: this.task.id,
+        JobId: jobId,
+      });
+
+      this.$store.dispatch("deleteJob", data);
     },
     editJobStatus: function(jobId, jobStatus) {
-      this.$emit("edit-job-status", this.task.id, jobId, !jobStatus);
+      let data = JSON.stringify({
+        TaskId: this.task.id,
+        JobId: jobId,
+        Done: !jobStatus,
+      });
+
+      this.$store.dispatch("editJobStatus", data);
     },
     getStatus: function(status) {
       if (status == 2) {

@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const url = "https://localhost:44336/api/tasks";
+const jobUrl = "https://localhost:44336/api/tasks/job";
 const headers = { Accept: "*" };
 
 export default new Vuex.Store({
@@ -73,6 +74,45 @@ export default new Vuex.Store({
                 body: data,
             };
             const tasks = await fetch(url, settings);
+            const tasksJson = await tasks.json();
+            state.commit("setTasks", tasksJson);
+        },
+        async addJob(state, data){
+            const settings = {
+                method: "POST",
+                headers: {
+                  Accept: "*",
+                  "Content-Type": "application/json",
+                },
+                body: data
+            };
+            const tasks = await fetch(jobUrl, settings);
+            const tasksJson = await tasks.json();
+            state.commit("setTasks", tasksJson);
+        },
+        async deleteJob(state, data){
+            const settings = {
+                method: "DELETE",
+                headers: {
+                  Accept: "*",
+                  "Content-Type": "application/json",
+                },
+                body: data
+            };
+            const tasks = await fetch(jobUrl, settings);
+            const tasksJson = await tasks.json();
+            state.commit("setTasks", tasksJson);
+        },
+        async editJobStatus(state, data){
+            const settings = {
+                method: "PUT",
+                headers: {
+                  Accept: "*",
+                  "Content-Type": "application/json",
+                },
+                body: data,
+            };
+            const tasks = await fetch(jobUrl + "/done", settings);
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         }
