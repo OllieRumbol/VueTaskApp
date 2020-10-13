@@ -31,7 +31,7 @@ export default {
         this.showErrorMessage = true;
         return;
       }
-      
+
       try {
         this.$store.dispatch("addTask", this.task);
       } catch (error) {

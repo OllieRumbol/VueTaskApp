@@ -49,27 +49,27 @@ export default new Vuex.Store({
                 },
                 body: data,
             };
-            const tasks = await fetch("https://localhost:44336/api/tasks/status", settings);
+            const tasks = await fetch(url + "/status", settings);
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         },
-        async deleteTask(state, id){
+        async deleteTask(state, id) {
             const settings = {
                 method: "DELETE",
                 headers: {
-                  Accept: "*",
+                    Accept: "*",
                 }
             };
-            const tasks = await fetch("https://localhost:44336/api/tasks/"+ id, settings);
+            const tasks = await fetch(url + "/" + id, settings);
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         },
-        async renameTask(state, data){
+        async renameTask(state, data) {
             const settings = {
                 method: "PUT",
                 headers: {
-                  Accept: "*",
-                  "Content-Type": "application/json",
+                    Accept: "*",
+                    "Content-Type": "application/json",
                 },
                 body: data,
             };
@@ -77,12 +77,12 @@ export default new Vuex.Store({
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         },
-        async addJob(state, data){
+        async addJob(state, data) {
             const settings = {
                 method: "POST",
                 headers: {
-                  Accept: "*",
-                  "Content-Type": "application/json",
+                    Accept: "*",
+                    "Content-Type": "application/json",
                 },
                 body: data
             };
@@ -90,12 +90,12 @@ export default new Vuex.Store({
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         },
-        async deleteJob(state, data){
+        async deleteJob(state, data) {
             const settings = {
                 method: "DELETE",
                 headers: {
-                  Accept: "*",
-                  "Content-Type": "application/json",
+                    Accept: "*",
+                    "Content-Type": "application/json",
                 },
                 body: data
             };
@@ -103,12 +103,12 @@ export default new Vuex.Store({
             const tasksJson = await tasks.json();
             state.commit("setTasks", tasksJson);
         },
-        async editJobStatus(state, data){
+        async editJobStatus(state, data) {
             const settings = {
                 method: "PUT",
                 headers: {
-                  Accept: "*",
-                  "Content-Type": "application/json",
+                    Accept: "*",
+                    "Content-Type": "application/json",
                 },
                 body: data,
             };
