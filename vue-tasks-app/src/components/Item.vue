@@ -138,10 +138,14 @@ export default {
   },
   methods: {
     moveTask: function() {
-      this.$emit("move-task", this.task.id, this.getStatus(this.task.status));
+      let data = JSON.stringify({
+        Id: this.task.id,
+        Status: this.getStatus(this.task.status),
+      });
+      this.$store.dispatch("moveTask", data);
     },
     deleteTask: function() {
-      this.$emit("delete-task", this.task.id);
+      this.$store.dispatch("deleteTask", this.task.id);
     },
     editTask: function() {
       this.showTaskErrorMessage = false;
@@ -150,7 +154,11 @@ export default {
         return;
       }
 
-      this.$emit("edit-task", this.task.id, this.task.name);
+      let data = JSON.stringify({
+        Id: this.task.id,
+        Name: this.task.name,
+      });
+      this.$store.dispatch("renameTask", data);
     },
     addJob: function(id) {
       this.showJobErrorMessage = false;
@@ -159,14 +167,31 @@ export default {
         return;
       }
 
-      this.$emit("add-job", id, this.newJob);
+      let data = JSON.stringify({
+        TaskId: id,
+        JobName: this.newJob,
+      });
+
+      this.$store.dispatch("addJob", data);
+
       this.newJob = "";
     },
     delJob: function(jobId) {
-      this.$emit("del-job", this.task.id, jobId);
+      let data = JSON.stringify({
+        TaskId: this.task.id,
+        JobId: jobId,
+      });
+
+      this.$store.dispatch("deleteJob", data);
     },
     editJobStatus: function(jobId, jobStatus) {
-      this.$emit("edit-job-status", this.task.id, jobId, !jobStatus);
+      let data = JSON.stringify({
+        TaskId: this.task.id,
+        JobId: jobId,
+        Done: !jobStatus,
+      });
+
+      this.$store.dispatch("editJobStatus", data);
     },
     getStatus: function(status) {
       if (status == 2) {
