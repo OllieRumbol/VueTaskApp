@@ -38,7 +38,9 @@
         </div>
         <!--JOBS SECTION-->
         <div>
-          <h2 class="p-3">Jobs</h2>
+          <h2 class="p-3">
+            Jobs <span class="badge badge-secondary ml-1">{{ task.jobs.length }}</span>
+          </h2>
           <!-- NEW -->
           <table class="p-3 input-group table d-flex justify-content-center">
             <tbody>
