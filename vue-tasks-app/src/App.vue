@@ -10,11 +10,11 @@
         <p class="lead">Create all the tasks for your day here.</p>
         <div class="row">
           <div class="col-12">
-            <Input @api-error="displayError" />
+            <Input />
           </div>
         </div>
         <br />
-        <Lists @api-error="displayError" />
+        <Lists />
       </div>
     </div>
   </div>
@@ -35,15 +35,16 @@ export default {
   props: {},
   mounted() {},
   data() {
-    return {
-      showApiError: false,
-    };
+    return {};
   },
-  methods: {
-    displayError: function() {
-      this.showApiError = true;
+  methods: {},
+  computed: {
+    showError() {
+      return this.$store.getters.getToDoTasks;
     },
+    showApiError(){
+      return this.$store.getters.getError;
+    }
   },
-  computed: {},
 };
 </script>
