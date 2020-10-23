@@ -31,13 +31,8 @@ export default {
         this.showErrorMessage = true;
         return;
       }
-
-      try {
-        this.$store.dispatch("addTask", this.task);
-      } catch (error) {
-        console.log(error);
-        this.$emit("api-error");
-      }
+      
+      this.$store.dispatch("addTask", this.task);
 
       this.task = "";
     },
