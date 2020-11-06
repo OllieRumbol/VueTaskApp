@@ -36,7 +36,7 @@ export default new Vuex.Store({
                 state.commit("setError", true);
             }
         },
-        async addTask(state, task) {
+        async addTask(state, data) {
             state.commit("setError", false);
 
             const settings = {
@@ -45,16 +45,14 @@ export default new Vuex.Store({
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    task: task,
-                }),
+                body: data
             };
-            try{
+            try {
                 const tasks = await fetch(url, settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         },
@@ -69,12 +67,12 @@ export default new Vuex.Store({
                 },
                 body: data,
             };
-            try{
+            try {
                 const tasks = await fetch(url + "/status", settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         },
@@ -87,12 +85,12 @@ export default new Vuex.Store({
                     Accept: "*",
                 }
             };
-            try{
+            try {
                 const tasks = await fetch(url + "/" + id, settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         },
@@ -107,12 +105,33 @@ export default new Vuex.Store({
                 },
                 body: data,
             };
-            try{
+            try {
                 const tasks = await fetch(url, settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
+                state.commit("setError", true);
+            }
+        },
+        async editDescription(state, data) {
+            console.log(data);
+            state.commit("setError", false);
+
+            const settings = {
+                method: "PUT",
+                headers: {
+                    "Accept": "*",
+                    "Content-Type": "application/json",
+                },
+                body: data,
+            };
+            try {
+                const tasks = await fetch(url + "/description", settings);
+                const tasksJson = await tasks.json();
+                state.commit("setTasks", tasksJson);
+            }
+            catch {
                 state.commit("setError", true);
             }
         },
@@ -127,12 +146,12 @@ export default new Vuex.Store({
                 },
                 body: data
             };
-            try{
+            try {
                 const tasks = await fetch(jobUrl, settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         },
@@ -147,18 +166,18 @@ export default new Vuex.Store({
                 },
                 body: data
             };
-            try{
+            try {
                 const tasks = await fetch(jobUrl, settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         },
         async editJobStatus(state, data) {
             state.commit("setError", false);
-            
+
             const settings = {
                 method: "PUT",
                 headers: {
@@ -167,12 +186,12 @@ export default new Vuex.Store({
                 },
                 body: data,
             };
-            try{
+            try {
                 const tasks = await fetch(jobUrl + "/done", settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
-            catch{
+            catch {
                 state.commit("setError", true);
             }
         }
@@ -190,7 +209,7 @@ export default new Vuex.Store({
         getDoneTasks(state) {
             return state.tasks.filter((task) => task.status == 2);
         },
-        getError(state){
+        getError(state) {
             return state.displayError;
         }
     }
