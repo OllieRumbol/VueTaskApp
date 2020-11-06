@@ -15,7 +15,11 @@
                   class="form-control mr-3"
                   v-model="task.name"
                 />
-                <button type="button" class="btn btn-primary" v-on:click="editTask">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editTask"
+                >
                   Save
                 </button>
               </div>
@@ -29,8 +33,12 @@
             <div>
               <h5 class="font-weight-bold">Task Description</h5>
               <div class="input-group">
-                <input type="text" class="form-control mr-3" />
-                <button type="button" class="btn btn-primary">
+                <input
+                  type="text"
+                  class="form-control mr-3"
+                  v-model="task.description"
+                />
+                <button type="button" class="btn btn-primary" v-on:click="editDescription">
                   Save
                 </button>
               </div>
@@ -42,7 +50,12 @@
               <br />
             </div>
             <div>
-              <h5 class="font-weight-bold">Jobs <span class="badge badge-secondary ml-1">{{ task.jobs.length }}</span></h5>
+              <h5 class="font-weight-bold">
+                Jobs
+                <span class="badge badge-secondary ml-1">{{
+                  task.jobs.length
+                }}</span>
+              </h5>
               <table class="table justify-content-center">
                 <tbody>
                   <tr>
@@ -84,7 +97,11 @@
               </table>
               <div class="input-group">
                 <input type="text" class="form-control mr-3" v-model="newJob" />
-                <button type="button" class="btn btn-success" v-on:click="addJob(task.id)">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  v-on:click="addJob(task.id)"
+                >
                   Save
                 </button>
               </div>
@@ -133,7 +150,6 @@ export default {
     close() {
       this.$emit("close");
     },
-
     editTask: function() {
       this.showTaskErrorMessage = false;
       if (this.task.name == "") {
@@ -146,6 +162,14 @@ export default {
         Name: this.task.name,
       });
       this.$store.dispatch("renameTask", data);
+    },
+    editDescription: function() {
+      let data = JSON.stringify({
+        Id: this.task.id,
+        Description: this.task.description,
+      });
+
+      this.$store.dispatch("editDescription", data);
     },
     addJob: function(id) {
       this.showJobErrorMessage = false;
@@ -179,7 +203,7 @@ export default {
       });
 
       this.$store.dispatch("editJobStatus", data);
-    }
+    },
   },
   computed: {},
 };
