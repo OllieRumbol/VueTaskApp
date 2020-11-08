@@ -13,7 +13,7 @@
                 <input
                   type="text"
                   class="form-control mr-3"
-                  v-model="task.name"
+                  v-model="taskName"
                 />
                 <button
                   type="button"
@@ -38,7 +38,11 @@
                   class="form-control mr-3"
                   v-model="task.description"
                 />
-                <button type="button" class="btn btn-primary" v-on:click="editDescription">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editDescription"
+                >
                   Save
                 </button>
               </div>
@@ -72,7 +76,7 @@
                   <tr v-for="(job, key) in task.jobs" v-bind:key="key">
                     <td class="text-center">
                       <input
-                        class="mt-2"
+                        class="mt-2 form-control input-sm"
                         type="checkbox"
                         v-model="job.done"
                         id="defaultCheck1"
@@ -82,11 +86,11 @@
                       />
                     </td>
                     <td class="text-center">
-                      <h4>{{ job.name }}</h4>
+                      <h4 class="mt-2">{{ job.name }}</h4>
                     </td>
                     <td class="text-center">
                       <button
-                        class="btn btn-danger"
+                        class="btn btn-danger mt-1"
                         v-on:click.stop.prevent="delJob(job.id)"
                       >
                         Del
@@ -144,6 +148,7 @@ export default {
       jobErrorMessage: "Cannot add empty job, please add a value",
       showTaskErrorMessage: false,
       taskErrorMessage: "Cannot have an empty task name, Please add value",
+      taskName: this.task.name,
     };
   },
   methods: {
@@ -152,14 +157,14 @@ export default {
     },
     editTask: function() {
       this.showTaskErrorMessage = false;
-      if (this.task.name == "") {
+      if (this.taskName == "") {
         this.showTaskErrorMessage = true;
         return;
       }
 
       let data = JSON.stringify({
         Id: this.task.id,
-        Name: this.task.name,
+        Name: this.taskName,
       });
       this.$store.dispatch("renameTask", data);
     },

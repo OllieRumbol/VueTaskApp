@@ -6,6 +6,7 @@
     <h5>Task Name</h5>
     <input v-model="task" class="form-control" type="text" />
     <br />
+    <br />
     <h5>Task Description</h5>
     <input v-model="description" class="form-control" type="text" />
     <br />
@@ -49,6 +50,7 @@ export default {
     },
     clearInput: function() {
       this.task = "";
+      this.description = "";
       this.showErrorMessage = false;
     },
   },

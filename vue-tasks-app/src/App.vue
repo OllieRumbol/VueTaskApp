@@ -39,12 +39,9 @@ export default {
   },
   methods: {},
   computed: {
-    showError() {
-      return this.$store.getters.getToDoTasks;
-    },
-    showApiError(){
+    showApiError() {
       return this.$store.getters.getError;
-    }
+    },
   },
 };
 </script>
