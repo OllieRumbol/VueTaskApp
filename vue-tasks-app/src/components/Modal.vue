@@ -50,7 +50,16 @@
             <br />
             <div>
               <h5 class="font-weight-bold">Task Completed Date</h5>
-
+              <div class="input-group">
+                <input type="date" class="form-control mr-3" v-model="taskCompletedDate" />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editCompletedDate"
+                >
+                  Save
+                </button>
+              </div>
               <br />
             </div>
             <div>
@@ -149,6 +158,7 @@ export default {
       showTaskErrorMessage: false,
       taskErrorMessage: "Cannot have an empty task name, Please add value",
       taskName: this.task.name,
+      taskCompletedDate: this.task.completedDate.split("T")[0]
     };
   },
   methods: {
@@ -175,6 +185,14 @@ export default {
       });
 
       this.$store.dispatch("editDescription", data);
+    },
+    editCompletedDate: function() {
+      let data = JSON.stringify({
+        Id: this.task.id,
+        CompletedDate: this.taskCompletedDate,
+      });
+
+      this.$store.dispatch("editCompletedDate", data);
     },
     addJob: function(id) {
       this.showJobErrorMessage = false;
@@ -210,6 +228,7 @@ export default {
       this.$store.dispatch("editJobStatus", data);
     },
   },
-  computed: {},
+  computed: {
+  },
 };
 </script>

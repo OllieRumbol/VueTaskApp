@@ -115,7 +115,6 @@ export default new Vuex.Store({
             }
         },
         async editDescription(state, data) {
-            console.log(data);
             state.commit("setError", false);
 
             const settings = {
@@ -128,6 +127,26 @@ export default new Vuex.Store({
             };
             try {
                 const tasks = await fetch(url + "/description", settings);
+                const tasksJson = await tasks.json();
+                state.commit("setTasks", tasksJson);
+            }
+            catch {
+                state.commit("setError", true);
+            }
+        },
+        async editCompletedDate(state, data) {
+            state.commit("setError", false);
+
+            const settings = {
+                method: "PUT",
+                headers: {
+                    "Accept": "*",
+                    "Content-Type": "application/json",
+                },
+                body: data,
+            };
+            try {
+                const tasks = await fetch(url + "/complateddate", settings);
                 const tasksJson = await tasks.json();
                 state.commit("setTasks", tasksJson);
             }
