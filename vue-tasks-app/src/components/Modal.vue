@@ -8,21 +8,14 @@
           </div>
           <div class="modal-body">
             <div>
-              <h5 class="font-weight-bold">Task Name</h5>
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control mr-3"
-                  v-model="taskName"
-                />
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  v-on:click="editTask"
-                >
-                  Save
-                </button>
-              </div>
+              <ModalInput
+                title="Task Name"
+                :value="taskName"
+                type="text"
+                colour="primary"
+                clearValue="false"
+                @saveChanges="editTask"
+              />
               <div v-show="showTaskErrorMessage" class="pt-4">
                 <div class="alert alert-danger" role="alert">
                   {{ taskErrorMessage }}
@@ -30,38 +23,24 @@
               </div>
             </div>
             <br />
-            <div>
-              <h5 class="font-weight-bold">Task Description</h5>
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control mr-3"
-                  v-model="task.description"
-                />
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  v-on:click="editDescription"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
+            <ModalInput
+              title="Task Description"
+              :value="task.description"
+              type="text"
+              colour="primary"
+              clearValue="false"
+              @saveChanges="editDescription"
+            />
             <br />
-            <div>
-              <h5 class="font-weight-bold">Task Completed Date</h5>
-              <div class="input-group">
-                <input type="date" class="form-control mr-3" v-model="taskCompletedDate" />
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  v-on:click="editCompletedDate"
-                >
-                  Save
-                </button>
-              </div>
-              <br />
-            </div>
+            <ModalInput
+              title="Task Completed Date"
+              :value="taskCompletedDate"
+              type="date"
+              colour="primary"
+              clearValue="false"
+              @saveChanges="editCompletedDate"
+            />
+            <br />
             <div>
               <h5 class="font-weight-bold">
                 Jobs
@@ -108,16 +87,14 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="input-group">
-                <input type="text" class="form-control mr-3" v-model="newJob" />
-                <button
-                  type="button"
-                  class="btn btn-success"
-                  v-on:click="addJob(task.id)"
-                >
-                  Save
-                </button>
-              </div>
+              <ModalInput
+                title=""
+                :value="newJob"
+                type="text"
+                colour="success"
+                clearValue="true"
+                @saveChanges="addJob"
+              />
               <div v-show="showJobErrorMessage" class="pt-4">
                 <div class="alert alert-danger" role="alert">
                   {{ jobErrorMessage }}
@@ -142,10 +119,13 @@
 
 <script>
 import "../style/modal.css";
+import ModalInput from "./ModalInput";
 
 export default {
   name: "Modal",
-  components: {},
+  components: {
+    ModalInput,
+  },
   props: {
     task: Object,
   },
@@ -158,57 +138,55 @@ export default {
       showTaskErrorMessage: false,
       taskErrorMessage: "Cannot have an empty task name, Please add value",
       taskName: this.task.name,
-      taskCompletedDate: this.task.completedDate.split("T")[0]
+      taskCompletedDate: this.task.completedDate.split("T")[0],
     };
   },
   methods: {
     close() {
       this.$emit("close");
     },
-    editTask: function() {
+    editTask: function(value) {
       this.showTaskErrorMessage = false;
-      if (this.taskName == "") {
+      if (value == "") {
         this.showTaskErrorMessage = true;
         return;
       }
 
       let data = JSON.stringify({
         Id: this.task.id,
-        Name: this.taskName,
+        Name: value,
       });
       this.$store.dispatch("renameTask", data);
     },
-    editDescription: function() {
+    editDescription: function(value) {
       let data = JSON.stringify({
         Id: this.task.id,
-        Description: this.task.description,
+        Description: value,
       });
 
       this.$store.dispatch("editDescription", data);
     },
-    editCompletedDate: function() {
+    editCompletedDate: function(value) {
       let data = JSON.stringify({
         Id: this.task.id,
-        CompletedDate: this.taskCompletedDate,
+        CompletedDate: value,
       });
 
       this.$store.dispatch("editCompletedDate", data);
     },
-    addJob: function(id) {
+    addJob: function(value) {
       this.showJobErrorMessage = false;
-      if (this.newJob == "") {
+      if (value == "") {
         this.showJobErrorMessage = true;
         return;
       }
 
       let data = JSON.stringify({
-        TaskId: id,
-        JobName: this.newJob,
+        TaskId: this.task.id,
+        JobName: value,
       });
 
       this.$store.dispatch("addJob", data);
-
-      this.newJob = "";
     },
     delJob: function(jobId) {
       let data = JSON.stringify({
@@ -228,7 +206,6 @@ export default {
       this.$store.dispatch("editJobStatus", data);
     },
   },
-  computed: {
-  },
+  computed: {},
 };
 </script>
