@@ -4,13 +4,13 @@
       {{ errorMessage }}
     </div>
     <h5>Task Name</h5>
-    <input v-model="task" class="form-control" type="text" />
+    <input v-model="task" class="form-control" type="text" id="taskNameInput" />
     <br />
     <h5>Task Description</h5>
-    <input v-model="description" class="form-control" type="text" />
+    <input v-model="description" class="form-control" type="text" id="taskDescriptionInput"/>
     <br />
     <h5>Task Completion Date</h5>
-    <input type="date" v-model="date" />
+    <input type="date" v-model="date" id="taskDateInput"/>
     <br />
     <button class="btn btn-primary btn-lg m-3" v-on:click="submitTask">
       Add
