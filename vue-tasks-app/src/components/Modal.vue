@@ -100,14 +100,14 @@
                         class="mt-2 form-control input-sm"
                         type="checkbox"
                         v-model="job.done"
-                        id="defaultCheck1"
+                        :id="'done' + key"
                         v-on:click.stop.prevent="
                           editJobStatus(job.id, job.done)
                         "
                       />
                     </td>
                     <td class="text-center">
-                      <h4 class="mt-2">{{ job.name }}</h4>
+                      <h4 class="mt-2" :id="'job' + key">{{ job.name }}</h4>
                     </td>
                     <td class="text-center">
                       <button
@@ -130,13 +130,18 @@
                     v-model="newJob"
                     id="newJob"
                   />
-                  <button type="button" class="btn btn-success" v-on:click="addJob">
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    v-on:click="addJob"
+                    id="addJob"
+                  >
                     Save
                   </button>
                 </div>
               </div>
               <div v-show="showJobErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" id="jobErrorMessage">
                   {{ jobErrorMessage }}
                 </div>
               </div>
@@ -163,8 +168,7 @@ import "../style/modal.css";
 
 export default {
   name: "Modal",
-  components: {
-  },
+  components: {},
   props: {
     task: Object,
   },
@@ -227,6 +231,8 @@ export default {
       });
 
       this.$store.dispatch("addJob", data);
+
+      this.newJob = "";
     },
     delJob: function(jobId) {
       let data = JSON.stringify({
