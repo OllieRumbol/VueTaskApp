@@ -1,7 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex';
 import Modal from '../../src/components/Modal.vue';
-import ModalInput from '../../src/components/ModalInput.vue';
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -43,11 +42,9 @@ describe('Modal.vue', () => {
 
         //Get parts of the page need for test
         const numberOfJobs = wrapper.find('#numberOfJobs');
-        const numberOfModalInputComponents = wrapper.findAllComponents(ModalInput);
           
         //Assert values
         expect(numberOfJobs.text()).toMatch("1");
-        expect(numberOfModalInputComponents.length).toEqual(4);
     })
 
     it('Deletes jobs', () => {
