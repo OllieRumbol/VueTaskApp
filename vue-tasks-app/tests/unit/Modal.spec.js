@@ -42,7 +42,7 @@ const factory = () => {
         },
         store, localVue
     })
-  }
+}
 
 describe('Modal.vue', () => {
     it('Renders the components with expect values', async () => {
@@ -55,13 +55,46 @@ describe('Modal.vue', () => {
         const taskCompletedDate = wrapper.find("#taskCompletedDate");
         const numberOfJobs = wrapper.find('#numberOfJobs');
         const jobName = wrapper.find("#job0");
-          
+
         //Assert values
         expect(taskName.element.value).toMatch("Task 1");
         expect(taskDescription.element.value).toMatch("Task 1 Description");
         expect(taskCompletedDate.element.value).toMatch("2020-11-29");
         expect(numberOfJobs.text()).toMatch("1");
         expect(jobName.text()).toMatch("Job 1");
+    })
+
+    it('Edits the name of the task', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const taskName = wrapper.find('#taskName');
+        const taskNameSaveButton = wrapper.find("#taskNameSaveButton");
+
+        //Perform Actions
+        await taskName.setValue('New task name 1');
+        await taskNameSaveButton.trigger('click');
+
+        //Assert values
+        expect(actions.renameTask).toHaveBeenCalled();
+    })
+
+    it('Displays an error when the name of the task is empty', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const taskName = wrapper.find('#taskName');
+        const taskNameSaveButton = wrapper.find("#taskNameSaveButton");
+
+        //Perform Actions
+        await taskName.setValue('');
+        await taskNameSaveButton.trigger('click');
+        const taskNameErrorMessage = wrapper.find("#taskNameErrorMessage");
+
+        //Assert values
+        expect(taskNameErrorMessage.text()).toMatch("Cannot have an empty task name, Please add value");
     })
 
     it('Displays an error message when adding a job with no value', async () => {
@@ -85,7 +118,7 @@ describe('Modal.vue', () => {
 
         //Get parts of the page need for test
         wrapper.find('#del0').trigger('click')
-          
+
         //Assert values
         expect(actions.deleteJob).toHaveBeenCalled();
     })

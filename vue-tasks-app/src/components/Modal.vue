@@ -22,12 +22,13 @@
                   type="button"
                   class="btn btn-primary"
                   v-on:click="editTask"
+                  id="taskNameSaveButton"
                 >
                   Save
                 </button>
               </div>
               <div v-show="showTaskErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" id="taskNameErrorMessage">
                   {{ taskErrorMessage }}
                 </div>
               </div>
