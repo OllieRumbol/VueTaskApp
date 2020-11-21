@@ -48,6 +48,7 @@
                   type="button"
                   class="btn btn-primary"
                   v-on:click="editDescription"
+                  id="taskDescriptionSaveButton"
                 >
                   Save
                 </button>

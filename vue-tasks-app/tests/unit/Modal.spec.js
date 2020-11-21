@@ -97,6 +97,22 @@ describe('Modal.vue', () => {
         expect(taskNameErrorMessage.text()).toMatch("Cannot have an empty task name, Please add value");
     })
 
+    it('Edits the description of a task', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const taskDescription = wrapper.find('#taskDescription');
+        const taskDescriptionSaveButton = wrapper.find('#taskDescriptionSaveButton');
+
+        //Perform Actions
+        await taskDescription.setValue('New task description');
+        await taskDescriptionSaveButton.trigger('click');
+
+        //Assert values
+        expect(actions.editDescription).toHaveBeenCalled();
+    })
+
     it('Displays an error message when adding a job with no value', async () => {
         //Mount component to DOM
         const wrapper = factory();
