@@ -5,40 +5,49 @@ import Modal from '../../src/components/Modal.vue';
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
-describe('Modal.vue', () => {
-    let actions
-    let store
+let actions
+let store
 
-    beforeEach(() => {
-        actions = {
-            renameTask: jest.fn(),
-            deleteJob: jest.fn()
-        }
-        store = new Vuex.Store({
-            actions
-        })
+beforeEach(() => {
+    actions = {
+        renameTask: jest.fn(),
+        editDescription: jest.fn(),
+        editCompletedDate: jest.fn(),
+        addJob: jest.fn(),
+        deleteJob: jest.fn(),
+        editJobStatus: jest.fn(),
+    }
+    store = new Vuex.Store({
+        actions
     })
+})
 
+const factory = () => {
+    return mount(Modal, {
+        propsData: {
+            task: {
+                completedDate: "2020-11-29T00:00:00",
+                description: "Task 1 Description",
+                id: 1,
+                jobs: [
+                    {
+                        done: false,
+                        id: 1,
+                        name: "Job 1"
+                    }
+                ],
+                name: "Task 1",
+                status: 0
+            }
+        },
+        store, localVue
+    })
+  }
+
+describe('Modal.vue', () => {
     it('Renders the components with expect values', async () => {
         //Mount component to DOM
-        const wrapper = mount(Modal, {
-            propsData: {
-                task: {
-                    completedDate: "2020-11-29T00:00:00",
-                    description: "Task 1 Description",
-                    id: 1,
-                    jobs: [
-                        {
-                            done: false,
-                            id: 1,
-                            name: "Job 1"
-                        }
-                    ],
-                    name: "Task 1",
-                    status: 0
-                }
-            }
-        })
+        const wrapper = factory();
 
         //Get parts of the page need for test
         const taskName = wrapper.find('#taskName');
@@ -57,24 +66,7 @@ describe('Modal.vue', () => {
 
     it('Displays an error message when adding a job with no value', async () => {
         //Mount component to DOM
-        const wrapper = mount(Modal, {
-            propsData: {
-                task: {
-                    completedDate: "2020-11-29T00:00:00",
-                    description: "Task 1 Description",
-                    id: 1,
-                    jobs: [
-                        {
-                            done: false,
-                            id: 1,
-                            name: "Job 1"
-                        }
-                    ],
-                    name: "Task 1",
-                    status: 0
-                }
-            }
-        })
+        const wrapper = factory();
 
         //Get parts of the page need for test
         const addJobButton = wrapper.find("#addJob");
@@ -89,25 +81,7 @@ describe('Modal.vue', () => {
 
     it('Deletes jobs', () => {
         //Mount component to DOM
-        const wrapper = mount(Modal, {
-            propsData: {
-                task: {
-                    completedDate: "2020-11-29T00:00:00",
-                    description: "Task 1 Description",
-                    id: 1,
-                    jobs: [
-                        {
-                            done: false,
-                            id: 1,
-                            name: "Job 1"
-                        }
-                    ],
-                    name: "Task 1",
-                    status: 0
-                }
-            },
-            store, localVue
-        })
+        const wrapper = factory();
 
         //Get parts of the page need for test
         wrapper.find('#del0').trigger('click')
