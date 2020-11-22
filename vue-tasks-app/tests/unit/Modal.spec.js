@@ -144,6 +144,21 @@ describe('Modal.vue', () => {
         expect(jobErrorMessage.text()).toMatch("Cannot add empty job, please add a value");
     })
 
+    it('Adds a new job to a task', async () => {
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const newJob = wrapper.find("#newJob");
+        const addJobButton = wrapper.find("#addJob");
+
+        //Perform Actions
+        await newJob.setValue('Job 2');
+        await addJobButton.trigger('click');
+
+        //Assert values
+        expect(actions.addJob).toHaveBeenCalled();
+    })
+
     it('Deletes jobs', () => {
         //Mount component to DOM
         const wrapper = factory();
