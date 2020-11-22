@@ -113,6 +113,22 @@ describe('Modal.vue', () => {
         expect(actions.editDescription).toHaveBeenCalled();
     })
 
+    it('Edits the completed date of the task', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const taskCompletedDate = wrapper.find('#taskCompletedDate');
+        const taskCompletedDateSaveButton = wrapper.find('#taskCompletedDateSaveButton');
+
+        //Perform Actions
+        await taskCompletedDate.setValue('2020-12-06T00:00:00');
+        await taskCompletedDateSaveButton.trigger('click');
+
+        //Assert values
+        expect(actions.editCompletedDate).toHaveBeenCalled();
+    })
+
     it('Displays an error message when adding a job with no value', async () => {
         //Mount component to DOM
         const wrapper = factory();

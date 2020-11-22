@@ -69,6 +69,7 @@
                   type="button"
                   class="btn btn-primary"
                   v-on:click="editCompletedDate"
+                  id="taskCompletedDateSaveButton"
                 >
                   Save
                 </button>
