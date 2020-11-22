@@ -45,11 +45,6 @@ export default {
   mounted() {},
   data() {
     return {
-      newJob: "",
-      showJobErrorMessage: false,
-      jobErrorMessage: "Cannot add empty job, please add a value",
-      showTaskErrorMessage: false,
-      taskErrorMessage: "Cannot have an empty task name, Please add value",
       showModal: false,
     };
   },
