@@ -47,7 +47,7 @@ describe('Item.vue', () => {
         const wrapper = factory();
 
         //Assert values
-        expect(wrapper.vm.button1Style).toMatch("btn btn-primary w-100")
+        expect(wrapper.vm.button1Style).toMatch("btn btn-primary w-100");
     })
 
     it('Displays the correct styling for button 2', async () => {
@@ -55,7 +55,7 @@ describe('Item.vue', () => {
         const wrapper = factory();
 
         //Assert values
-        expect(wrapper.vm.button2Style).toMatch("btn btn-primary dropdown-toggle dropdown-toggle-split")
+        expect(wrapper.vm.button2Style).toMatch("btn btn-primary dropdown-toggle dropdown-toggle-split");
     })
 
     it('Displays the correct styling for button 3', async () => {
@@ -63,6 +63,16 @@ describe('Item.vue', () => {
         const wrapper = factory();
 
         //Assert values
-        expect(wrapper.vm.button3Style).toMatch("btn btn-primary dropdown w-100")
+        expect(wrapper.vm.button3Style).toMatch("btn btn-primary dropdown w-100");
+    })
+
+    it('Calculates the correct status', async () =>{
+        //Mount component to DOM
+        const wrapper = factory();
+
+        expect(wrapper.vm.getStatus(2)).toEqual(0);
+        expect(wrapper.vm.getStatus(1)).toEqual(2);
+        expect(wrapper.vm.getStatus(0)).toEqual(1);
+
     })
 })
