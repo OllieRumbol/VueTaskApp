@@ -26,7 +26,7 @@ const factory = () => {
 describe('Input.vue', () => {
   it('Renders the components with empty values', () => {
     //Mount component to DOM
-    const wrapper = mount(Input);
+    const wrapper = factory();
 
     //Perform actions and get values with Component
     const taskNameInput = wrapper.find("#taskNameInput");
@@ -41,7 +41,7 @@ describe('Input.vue', () => {
 
   it('Clears values within input fields', async () => {
     //Mount component to DOM
-    const wrapper = mount(Input);
+    const wrapper = factory();
 
     //Get parts of the page need for test
     const taskNameInput = wrapper.find("#taskNameInput");
@@ -63,7 +63,7 @@ describe('Input.vue', () => {
 
   it('Displays error message when the name of the task is empty', async () => {
     //Mount component to DOM
-    const wrapper = mount(Input);
+    const wrapper = factory();
 
     //Get parts of the page need for test
     const addButton = wrapper.find("#addButton");
