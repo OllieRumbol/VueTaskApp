@@ -24,7 +24,7 @@
       </button>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#" v-on:click="moveTask" id="moveTask">Move</a>
-        <a class="dropdown-item" href="#" v-on:click="deleteTask">Delete</a>
+        <a class="dropdown-item" href="#" v-on:click="deleteTask" id="deleteTask">Delete</a>
       </div>
     </div>
   </div>

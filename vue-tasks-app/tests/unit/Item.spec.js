@@ -88,6 +88,20 @@ describe('Item.vue', () => {
         await moveTask.trigger('click');
 
         //Assert values
-        expect(actions.moveTask).toBeCalled()
+        expect(actions.moveTask).toBeCalled();
+    })
+
+    it('Deletes a task', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const deleteTask = wrapper.find('#deleteTask');
+
+        //Perform actions
+        await deleteTask.trigger('click');
+
+        //Assert values
+        expect(actions.deleteTask).toBeCalled();
     })
 })
