@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-4">
-      <h1 class="d-flex justify-content-center">
+      <h1 class="d-flex justify-content-center" id="toDoTasks">
         To-Do<span class="badge badge-primary ml-3"
           >{{ toDoTasks.length }}: Tasks</span
         >
