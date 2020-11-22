@@ -66,13 +66,28 @@ describe('Item.vue', () => {
         expect(wrapper.vm.button3Style).toMatch("btn btn-primary dropdown w-100");
     })
 
-    it('Calculates the correct status', async () =>{
+    it('Calculates the correct status', async () => {
         //Mount component to DOM
         const wrapper = factory();
 
+        //Assert values
         expect(wrapper.vm.getStatus(2)).toEqual(0);
         expect(wrapper.vm.getStatus(1)).toEqual(2);
         expect(wrapper.vm.getStatus(0)).toEqual(1);
 
+    })
+
+    it('Moves a task', async () => {
+        //Mount component to DOM
+        const wrapper = factory();
+
+        //Get parts of the page need for test
+        const moveTask = wrapper.find('#moveTask');
+
+        //Perform actions
+        await moveTask.trigger('click');
+
+        //Assert values
+        expect(actions.moveTask).toBeCalled()
     })
 })

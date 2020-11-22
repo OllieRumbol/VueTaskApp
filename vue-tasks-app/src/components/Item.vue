@@ -23,7 +23,7 @@
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#" v-on:click="moveTask">Move</a>
+        <a class="dropdown-item" href="#" v-on:click="moveTask" id="moveTask">Move</a>
         <a class="dropdown-item" href="#" v-on:click="deleteTask">Delete</a>
       </div>
     </div>
