@@ -1,5 +1,27 @@
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex';
 import Input from '../../src/components/Input.vue'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
+let actions
+let store
+
+beforeEach(() => {
+  actions = {
+    addTask: jest.fn(),
+  }
+  store = new Vuex.Store({
+    actions
+  })
+})
+
+const factory = () => {
+  return mount(Input, {
+    store, localVue
+  })
+}
 
 describe('Input.vue', () => {
   it('Renders the components with empty values', () => {
@@ -17,7 +39,7 @@ describe('Input.vue', () => {
     expect(taskDateInput.text()).toMatch("");
   })
 
-  it('Clears values within input fields', async() => {
+  it('Clears values within input fields', async () => {
     //Mount component to DOM
     const wrapper = mount(Input);
 
@@ -39,7 +61,7 @@ describe('Input.vue', () => {
     expect(taskDateInput.text()).toMatch("");
   })
 
-  it('Displays error message when the name of the task is empty', async() => {
+  it('Displays error message when the name of the task is empty', async () => {
     //Mount component to DOM
     const wrapper = mount(Input);
 
@@ -52,5 +74,25 @@ describe('Input.vue', () => {
 
     //Assert values
     expect(errorMessage.text()).toMatch('Input box cannot be empty, please add task')
+  })
+
+  it('Adds a new task', async () => {
+    //Mount component to DOM
+    const wrapper = factory();
+
+    //Get parts of the page need for test
+    const taskNameInput = wrapper.find("#taskNameInput");
+    const taskDescriptionInput = wrapper.find("#taskDescriptionInput");
+    const taskDateInput = wrapper.find("#taskDateInput");
+    const addButton = wrapper.find("#addButton");
+
+    //Perform actions
+    await taskNameInput.setValue('Task 1');
+    await taskDescriptionInput.setValue('Task 1 description');
+    await taskDateInput.setValue(new Date().toString());
+    await addButton.trigger('click');
+
+    //Assert values
+    expect(actions.addTask).toHaveBeenCalled();
   })
 })
