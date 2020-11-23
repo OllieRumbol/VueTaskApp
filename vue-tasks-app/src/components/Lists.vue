@@ -9,7 +9,7 @@
       <List :tasks="toDoTasks" colour="primary" />
     </div>
     <div class="col-4">
-      <h1 class="d-flex justify-content-center">
+      <h1 class="d-flex justify-content-center" id="inProgressTasks">
         In Progress<span class="badge badge-warning ml-3"
           >{{ inProgressTasks.length }}: Tasks</span
         >
@@ -17,7 +17,7 @@
       <List :tasks="inProgressTasks" colour="warning" />
     </div>
     <div class="col-4">
-      <h1 class="d-flex justify-content-center">
+      <h1 class="d-flex justify-content-center" id="doneTasks">
         Done<span class="badge badge-success ml-3"
           >{{ doneTasks.length }}: Tasks</span
         >
