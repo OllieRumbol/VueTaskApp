@@ -4,47 +4,83 @@
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
+            <!-- Modal title -->
             <h2 class="text-primary">Task Modal</h2>
           </div>
           <div class="modal-body">
+            <!-- Task name -->
             <div>
-              <ModalInput
-                title="Task Name"
-                :value="taskName"
-                type="text"
-                colour="primary"
-                clearValue="false"
-                @saveChanges="editTask"
-              />
+              <h5 class="font-weight-bold">Task Name</h5>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control mr-3"
+                  v-model="taskName"
+                  id="taskName"
+                />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editTask"
+                  id="taskNameSaveButton"
+                >
+                  Save
+                </button>
+              </div>
               <div v-show="showTaskErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" id="taskNameErrorMessage">
                   {{ taskErrorMessage }}
                 </div>
               </div>
             </div>
             <br />
-            <ModalInput
-              title="Task Description"
-              :value="task.description"
-              type="text"
-              colour="primary"
-              clearValue="false"
-              @saveChanges="editDescription"
-            />
+            <!-- Task description -->
+            <div>
+              <h5 class="font-weight-bold">Task Description</h5>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control mr-3"
+                  v-model="task.description"
+                  id="taskDescription"
+                />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editDescription"
+                  id="taskDescriptionSaveButton"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
             <br />
-            <ModalInput
-              title="Task Completed Date"
-              :value="taskCompletedDate"
-              type="date"
-              colour="primary"
-              clearValue="false"
-              @saveChanges="editCompletedDate"
-            />
+            <!-- Task completed date -->
+            <div>
+              <h5 class="font-weight-bold">Task Completed Date</h5>
+              <div class="input-group">
+                <input
+                  type="date"
+                  class="form-control mr-3"
+                  v-model="taskCompletedDate"
+                  id="taskCompletedDate"
+                />
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  v-on:click="editCompletedDate"
+                  id="taskCompletedDateSaveButton"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
             <br />
+            <!-- List of jobs -->
             <div>
               <h5 class="font-weight-bold">
                 Jobs
-                <span class="badge badge-secondary ml-1">{{
+                <span class="badge badge-secondary ml-1" id="numberOfJobs">{{
                   task.jobs.length
                 }}</span>
               </h5>
@@ -67,19 +103,20 @@
                         class="mt-2 form-control input-sm"
                         type="checkbox"
                         v-model="job.done"
-                        id="defaultCheck1"
+                        :id="'done' + key"
                         v-on:click.stop.prevent="
                           editJobStatus(job.id, job.done)
                         "
                       />
                     </td>
                     <td class="text-center">
-                      <h4 class="mt-2">{{ job.name }}</h4>
+                      <h4 class="mt-2" :id="'job' + key">{{ job.name }}</h4>
                     </td>
                     <td class="text-center">
                       <button
                         class="btn btn-danger mt-1"
                         v-on:click.stop.prevent="delJob(job.id)"
+                        :id="'del' + key"
                       >
                         Del
                       </button>
@@ -87,21 +124,33 @@
                   </tr>
                 </tbody>
               </table>
-              <ModalInput
-                title=""
-                :value="newJob"
-                type="text"
-                colour="success"
-                clearValue="true"
-                @saveChanges="addJob"
-              />
+              <!-- Add new job -->
+              <div>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="form-control mr-3"
+                    v-model="newJob"
+                    id="newJob"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    v-on:click="addJob"
+                    id="addJob"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
               <div v-show="showJobErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" id="jobErrorMessage">
                   {{ jobErrorMessage }}
                 </div>
               </div>
             </div>
           </div>
+          <!-- Close modal -->
           <div class="modal-footer">
             <button
               class="float-right btn btn-primary"
@@ -119,13 +168,10 @@
 
 <script>
 import "../style/modal.css";
-import ModalInput from "./ModalInput";
 
 export default {
   name: "Modal",
-  components: {
-    ModalInput,
-  },
+  components: {},
   props: {
     task: Object,
   },
@@ -143,50 +189,53 @@ export default {
   },
   methods: {
     close() {
+      console.log(this.task);
       this.$emit("close");
     },
-    editTask: function(value) {
+    editTask: function() {
       this.showTaskErrorMessage = false;
-      if (value == "") {
+      if (this.taskName == "") {
         this.showTaskErrorMessage = true;
         return;
       }
 
       let data = JSON.stringify({
         Id: this.task.id,
-        Name: value,
+        Name: this.taskName,
       });
       this.$store.dispatch("renameTask", data);
     },
-    editDescription: function(value) {
+    editDescription: function() {
       let data = JSON.stringify({
         Id: this.task.id,
-        Description: value,
+        Description: this.task.description,
       });
 
       this.$store.dispatch("editDescription", data);
     },
-    editCompletedDate: function(value) {
+    editCompletedDate: function() {
       let data = JSON.stringify({
         Id: this.task.id,
-        CompletedDate: value,
+        CompletedDate: this.taskCompletedDate,
       });
 
       this.$store.dispatch("editCompletedDate", data);
     },
-    addJob: function(value) {
+    addJob: function() {
       this.showJobErrorMessage = false;
-      if (value == "") {
+      if (this.newJob == "") {
         this.showJobErrorMessage = true;
         return;
       }
 
       let data = JSON.stringify({
         TaskId: this.task.id,
-        JobName: value,
+        JobName: this.newJob,
       });
 
       this.$store.dispatch("addJob", data);
+
+      this.newJob = "";
     },
     delJob: function(jobId) {
       let data = JSON.stringify({

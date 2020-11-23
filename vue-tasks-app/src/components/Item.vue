@@ -23,8 +23,8 @@
         <span class="sr-only">Toggle Dropdown</span>
       </button>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#" v-on:click="moveTask">Move</a>
-        <a class="dropdown-item" href="#" v-on:click="deleteTask">Delete</a>
+        <a class="dropdown-item" href="#" v-on:click="moveTask" id="moveTask">Move</a>
+        <a class="dropdown-item" href="#" v-on:click="deleteTask" id="deleteTask">Delete</a>
       </div>
     </div>
   </div>
@@ -45,11 +45,6 @@ export default {
   mounted() {},
   data() {
     return {
-      newJob: "",
-      showJobErrorMessage: false,
-      jobErrorMessage: "Cannot add empty job, please add a value",
-      showTaskErrorMessage: false,
-      taskErrorMessage: "Cannot have an empty task name, Please add value",
       showModal: false,
     };
   },
