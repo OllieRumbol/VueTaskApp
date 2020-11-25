@@ -33,6 +33,6 @@ describe('App.vue', () => {
         const apiErrorMessage = wrapper.find('#apiErrorMessage')
 
         //Assert values
-        expect(apiErrorMessage.text()).toMatch('Unable to connect to the Tasks API and therefore unable to save task. Please contact support for further details.');
+        expect(apiErrorMessage.text()).toMatch('Unable to connect to the Tasks API and therefore unable to save task.\n    Please contact support for further details.');
     })
 })
