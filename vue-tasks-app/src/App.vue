@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="alert alert-danger" role="alert" v-show="showApiError">
+    <div class="alert alert-danger" role="alert" v-show="showApiError" id="apiErrorMessage">
       Unable to connect to the Tasks API and therefore unable to save task.
       <strong>Please contact support for further details.</strong>
     </div>
@@ -20,9 +20,11 @@
   </div>
 </template>
 
+<style>
+@import'~bootstrap/dist/css/bootstrap.css';
+</style>
+
 <script>
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Input from "./components/Input";
 import Lists from "./components/Lists";
 

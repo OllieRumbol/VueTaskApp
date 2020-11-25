@@ -28,7 +28,11 @@
                 </button>
               </div>
               <div v-show="showTaskErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert" id="taskNameErrorMessage">
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  id="taskNameErrorMessage"
+                >
                   {{ taskErrorMessage }}
                 </div>
               </div>
@@ -144,7 +148,11 @@
                 </div>
               </div>
               <div v-show="showJobErrorMessage" class="pt-4">
-                <div class="alert alert-danger" role="alert" id="jobErrorMessage">
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  id="jobErrorMessage"
+                >
                   {{ jobErrorMessage }}
                 </div>
               </div>
@@ -166,9 +174,11 @@
   </div>
 </template>
 
-<script>
-import "../style/modal.css";
+<style scoped>
+@import "../style/modal.css";
+</style>
 
+<script>
 export default {
   name: "Modal",
   components: {},
